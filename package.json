@@ -1,0 +1,48 @@
+{
+  "name": "fiap-sub",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with Fastify-CLI.",
+  "main": "dist/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build:ts": "tsc && tsc-alias",
+    "watch:ts": "concurrently -k \"tsc -w\" \"tsc-alias -w\"",
+    "start": "npm run build:ts && node dist/main.js",
+    "dev": "npm run build:ts && concurrently -k -p \"[{name}]\" -n \"TypeScript,App\" -c \"yellow.bold,cyan.bold\" \"npm:watch:ts\" \"npm:dev:start\"",
+    "dev:tsx": "tsx src/main.ts",
+    "dev:start": "node dist/main.js",
+    "test": "npm run build:ts && tsc -p tests/tsconfig.json && c8 node --test -r ts-node/register \"tests/**/*.ts\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.930.0",
+    "@aws-sdk/client-sqs": "^3.930.0",
+    "@fastify/sensible": "^6.0.0",
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@prisma/client": "^6.19.0",
+    "aws-jwt-verify": "^5.1.1",
+    "aws-lambda-fastify": "^2.2.0",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.0.0",
+    "fastify-plugin": "^5.0.0",
+    "fastify-type-provider-zod": "^6.1.0",
+    "prisma": "^6.19.0",
+    "tsconfig-paths": "^4.2.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.8",
+    "c8": "^10.1.2",
+    "concurrently": "^9.0.0",
+    "fastify-tsconfig": "^3.0.0",
+    "ts-node": "^10.4.0",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.2"
+  }
+}
