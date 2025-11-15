@@ -20,6 +20,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       body: reservaVeiculoBodySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.reservar,
   });
@@ -31,6 +32,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       params: idParamSchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.gerarCodigoPagamento,
   });
@@ -42,6 +44,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       params: idParamSchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.confirmarPagamento,
   });
@@ -53,6 +56,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       params: idParamSchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.marcarRetirada,
   });
@@ -65,6 +69,7 @@ export async function vendasRoutes(app: FastifyInstance) {
       tags: ["Vendas"],
       params: idParamSchema,
       body: cancelarVendaBodySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.cancelar,
   });
@@ -76,6 +81,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       querystring: listarVendasQuerySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.listar,
   });
@@ -87,6 +93,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       params: idParamSchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.obterPorId,
   });
@@ -98,6 +105,7 @@ export async function vendasRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Vendas"],
       body: reservaVeiculoBodySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.checkoutCompleto,
   });

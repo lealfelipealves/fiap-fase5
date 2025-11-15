@@ -19,6 +19,7 @@ export async function veiculosRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Veículos"],
       querystring: listVeiculosQuerySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.listar,
   });
@@ -29,6 +30,7 @@ export async function veiculosRoutes(app: FastifyInstance) {
     schema: {
       tags: ["Veículos"],
       body: createVeiculoBodySchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.cadastrar,
   });
@@ -40,6 +42,7 @@ export async function veiculosRoutes(app: FastifyInstance) {
       tags: ["Veículos"],
       body: updateVeiculoBodySchema,
       params: idParamSchema,
+      security: [{ bearerAuth: [] }],
     },
     handler: controller.editar,
   });

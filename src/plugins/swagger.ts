@@ -18,6 +18,15 @@ const swaggerPlugin = fp(async (fastify) => {
         description: "Documentação gerada via Swagger",
         version: "1.0.0",
       },
+      components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
     },
     transform: jsonSchemaTransform,
   });
