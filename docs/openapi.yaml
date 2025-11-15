@@ -1,0 +1,520 @@
+{
+  "openapi": "3.0.3",
+  "info":
+    {
+      "title": "API de Gestão de Veículos",
+      "description": "Documentação gerada via Swagger",
+      "version": "1.0.0",
+    },
+  "components":
+    {
+      "securitySchemes":
+        {
+          "bearerAuth":
+            { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" },
+        },
+      "schemas": {},
+    },
+  "paths":
+    {
+      "/auth/register":
+        {
+          "post":
+            {
+              "tags": ["Auth"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "nome": { "type": "string", "minLength": 3 },
+                                  "email":
+                                    {
+                                      "type": "string",
+                                      "format": "email",
+                                      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                                    },
+                                  "senha": { "type": "string", "minLength": 6 },
+                                  "documento":
+                                    { "type": "string", "minLength": 3 },
+                                  "telefone": { "type": "string" },
+                                  "endereco": { "type": "string" },
+                                },
+                              "required": ["nome", "email", "senha"],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/auth/login":
+        {
+          "post":
+            {
+              "tags": ["Auth"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "email":
+                                    {
+                                      "type": "string",
+                                      "format": "email",
+                                      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                                    },
+                                  "senha": { "type": "string", "minLength": 6 },
+                                },
+                              "required": ["email", "senha"],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/clientes/":
+        {
+          "get":
+            {
+              "tags": ["Clientes"],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+          "post":
+            {
+              "tags": ["Clientes"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "nome": { "type": "string", "minLength": 1 },
+                                  "cognitoSub":
+                                    { "type": "string", "minLength": 1 },
+                                  "email":
+                                    {
+                                      "type": "string",
+                                      "format": "email",
+                                      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+                                    },
+                                  "documento":
+                                    {
+                                      "type": "string",
+                                      "minLength": 11,
+                                      "maxLength": 14,
+                                    },
+                                  "telefone":
+                                    { "type": "string", "minLength": 8 },
+                                },
+                              "required":
+                                [
+                                  "nome",
+                                  "cognitoSub",
+                                  "email",
+                                  "documento",
+                                  "telefone",
+                                ],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/veiculos/":
+        {
+          "get":
+            {
+              "tags": ["Veículos"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "enum": ["DISPONIVEL", "RESERVADO", "VENDIDO"],
+                      },
+                    "in": "query",
+                    "name": "status",
+                    "required": false,
+                  },
+                  {
+                    "schema":
+                      {
+                        "default": "asc",
+                        "type": "string",
+                        "enum": ["asc", "desc"],
+                      },
+                    "in": "query",
+                    "name": "orderBy",
+                    "required": false,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+          "post":
+            {
+              "tags": ["Veículos"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "marca": { "type": "string", "minLength": 1 },
+                                  "modelo":
+                                    { "type": "string", "minLength": 1 },
+                                  "ano":
+                                    {
+                                      "type": "integer",
+                                      "minimum": 1900,
+                                      "maximum": 9007199254740991,
+                                    },
+                                  "cor": { "type": "string", "minLength": 1 },
+                                  "preco":
+                                    {
+                                      "type": "number",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                    },
+                                },
+                              "required":
+                                ["marca", "modelo", "ano", "cor", "preco"],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/veiculos/{id}":
+        {
+          "put":
+            {
+              "tags": ["Veículos"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "marca": { "type": "string", "minLength": 1 },
+                                  "modelo":
+                                    { "type": "string", "minLength": 1 },
+                                  "ano":
+                                    {
+                                      "type": "integer",
+                                      "minimum": 1900,
+                                      "maximum": 9007199254740991,
+                                    },
+                                  "cor": { "type": "string", "minLength": 1 },
+                                  "preco":
+                                    {
+                                      "type": "number",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/reservar":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "clienteId":
+                                    {
+                                      "type": "string",
+                                      "format": "uuid",
+                                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                                    },
+                                  "veiculoId":
+                                    {
+                                      "type": "string",
+                                      "format": "uuid",
+                                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                                    },
+                                },
+                              "required": ["clienteId", "veiculoId"],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/{id}/codigo-pagamento":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/{id}/confirmar-pagamento":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/{id}/retirar":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/{id}/cancelar":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "motivo":
+                                    {
+                                      "type": "string",
+                                      "minLength": 3,
+                                      "maxLength": 255,
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/":
+        {
+          "get":
+            {
+              "tags": ["Vendas"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "enum":
+                          [
+                            "RESERVADO",
+                            "CODIGO_GERADO",
+                            "PAGO",
+                            "RETIRADO",
+                            "CANCELADO",
+                          ],
+                      },
+                    "in": "query",
+                    "name": "status",
+                    "required": false,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/{id}":
+        {
+          "get":
+            {
+              "tags": ["Vendas"],
+              "parameters":
+                [
+                  {
+                    "schema":
+                      {
+                        "type": "string",
+                        "format": "uuid",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                      },
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                  },
+                ],
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+      "/vendas/checkout-completo":
+        {
+          "post":
+            {
+              "tags": ["Vendas"],
+              "requestBody":
+                {
+                  "content":
+                    {
+                      "application/json":
+                        {
+                          "schema":
+                            {
+                              "type": "object",
+                              "properties":
+                                {
+                                  "clienteId":
+                                    {
+                                      "type": "string",
+                                      "format": "uuid",
+                                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                                    },
+                                  "veiculoId":
+                                    {
+                                      "type": "string",
+                                      "format": "uuid",
+                                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+                                    },
+                                },
+                              "required": ["clienteId", "veiculoId"],
+                            },
+                        },
+                    },
+                  "required": true,
+                },
+              "security": [{ "bearerAuth": [] }],
+              "responses": { "200": { "description": "Default Response" } },
+            },
+        },
+    },
+}
